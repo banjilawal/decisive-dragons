@@ -4,6 +4,7 @@ from sys import exit
 from GameState import *
 from LevelLoader import *
 
+
 # Initialize pygame
 pg.init()
 
@@ -13,6 +14,8 @@ MAX_FRAMERATE = 30
 
 # Set GameState to Main Menu on startup
 game_state = GameState.MAIN_MENU
+#variable that stores the selected level
+selected_level = None
 
 # Game Window
 SCREEN_WIDTH = 800
@@ -35,8 +38,27 @@ title_surface = title_font.render('UNIT', True, (142, 107, 107))
 # UI Surfaces & Rectangles
 play_button_surface = pg.image.load('../graphics/play-button.png').convert()
 play_button_rect = play_button_surface.get_rect(center=(SCREEN_WIDTH // 2, 300))
-level_select_placeholder_text = ui_font.render('Placeholder - Go to GAMEPLAY GameState', True, 'White')
-level_select_placeholder_rect = level_select_placeholder_text.get_rect(center=(SCREEN_WIDTH // 2, 50))
+#level_select_placeholder_text = ui_font.render('Placeholder - Go to GAMEPLAY GameState', True, 'White')
+#level_select_placeholder_rect = level_select_placeholder_text.get_rect(center=(SCREEN_WIDTH // 2, 50))
+
+#initializing empty list
+level_buttons = []
+
+#select level list here with the json file
+level_select_data = [
+    {'id': 1, 'name': 'Level 1'},
+    {'id': 2, 'name': 'Level 2'},
+]
+
+for i, level in enumerate(level_select_data):
+    level_text = ui_font.render(level['name'], True, 'White')
+    level_rect = level_text.get_rect(center=(SCREEN_WIDTH // 2, 200 + i * 70))
+    level_buttons.append({'text_surface': level_text, 'rect': level_rect, 'id': level['id']})
+
+#Back button for gameplay screen
+back_button_text = ui_font.render('BACK', True, (142, 107, 107))
+#back button position
+back_button_rect = back_button_text.get_rect(topleft=(7,10))
 
 # Visual Defaults
 CELL_SIZE = 80
@@ -55,8 +77,16 @@ while running:
                 if play_button_rect.collidepoint(event.pos): # If the click was inside play button rectangle
                     game_state = GameState.LEVEL_SELECT
             elif game_state == GameState.LEVEL_SELECT:
-                if level_select_placeholder_rect.collidepoint(event.pos):
-                    game_state = GameState.GAMEPLAY
+                # Check if any level button was clicked
+                for button in level_buttons:
+                    if button['rect'].collidepoint(event.pos):
+                        selected_level = button['id']
+                        game_state = GameState.GAMEPLAY
+                        break
+            elif game_state == GameState.GAMEPLAY:
+                #check if back button was clicked
+                if back_button_rect.collidepoint(event.pos):
+                    game_state = GameState.LEVEL_SELECT #goes back to select level ui
 
     # --- MAIN MENU GAME STATE ---
     if game_state == GameState.MAIN_MENU:
@@ -67,16 +97,18 @@ while running:
     # --- LEVEL SELECT GAME STATE ---
     elif game_state == GameState.LEVEL_SELECT:
         screen.blit(background_surface, (0, 0)) # Draw background image
-        screen.blit(level_select_placeholder_text,
-                    (SCREEN_WIDTH // 2 - level_select_placeholder_text.get_width() // 2, 50)
-                    )
+        for button in level_buttons:
+            screen.blit(button['text_surface'], button['rect'])
 
     # --- GAMEPLAY GAME STATE ---
     elif game_state == GameState.GAMEPLAY:
         screen.blit(background_surface, (0, 0)) # Draw background image
 
+        #draws the back button
+        screen.blit(back_button_text, back_button_rect)
+
         # Gets grid and block objects from load_level_data()
-        level_data = load_level_data()
+        level_data = load_level_data(selected_level)
         block_objects = (level_data[0])
         grid = level_data[1]
 
