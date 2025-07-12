@@ -130,6 +130,7 @@ while running:
             )
             pygame.draw.rect(screen, WHITE, rect)
             # pygame.display.flip()
+            #
     else:
         print("ERROR: Invalid GameState: " + game_state)
         pg.quit()
