@@ -87,7 +87,15 @@ while running:
 
         # Draws the grid
         draw_grid(screen, grid, CELL_SIZE, offset_x, offset_y)
-
+        for block in block_objects:
+            rect = pygame.Rect(
+               block.column * CELL_SIZE + offset_x,
+               block.row * CELL_SIZE + offset_y,
+               CELL_SIZE * block.width,
+               CELL_SIZE * block.height
+            )
+            pygame.draw.rect(screen, WHITE, rect)
+            # pygame.display.flip()
     else:
         print("ERROR: Invalid GameState: " + game_state)
         pg.quit()
