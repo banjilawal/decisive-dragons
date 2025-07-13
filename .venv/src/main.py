@@ -1,5 +1,3 @@
-# Test
-
 import pygame as pg
 from sys import exit
 
@@ -64,6 +62,7 @@ back_button_rect = back_button_text.get_rect(topleft=(7,10))
 
 # Visual Defaults
 CELL_SIZE = 80
+WHITE = [255, 255, 255]
 
 # Main loop
 running = True
@@ -122,13 +121,13 @@ while running:
         # Draws the grid
         draw_grid(screen, grid, CELL_SIZE, offset_x, offset_y)
         for block in block_objects:
-            rect = pygame.Rect(
+            rect = pg.Rect(
                block.column * CELL_SIZE + offset_x,
                block.row * CELL_SIZE + offset_y,
                CELL_SIZE * block.width,
                CELL_SIZE * block.height
             )
-            pygame.draw.rect(screen, WHITE, rect)
+            pg.draw.rect(screen, WHITE, rect)
             # pygame.display.flip()
             #
     else:
