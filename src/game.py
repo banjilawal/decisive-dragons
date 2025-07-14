@@ -5,7 +5,7 @@ from sys import exit
 from GameState import *
 from LevelLoader import *
 
-def launch(graphics_dir: Path, fonts_dir: Path, levels_dir: Path):
+def launch(asset_directory: Path, font_directory: Path, level_directory: Path):
     # Initialize pygame
     pg.init()
 
@@ -22,21 +22,21 @@ def launch(graphics_dir: Path, fonts_dir: Path, levels_dir: Path):
     SCREEN_HEIGHT = 600
     screen = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pg.display.set_caption('UNIT')
-    icon_surface = pg.image.load(str(graphics_dir / 'icon.png')).convert_alpha()
+    icon_surface = pg.image.load(str(asset_directory / 'icon.png')).convert_alpha()
     pg.display.set_icon(icon_surface)
 
     # Background surface
-    background_surface = pg.image.load(str(graphics_dir / 'background.png')).convert()
+    background_surface = pg.image.load(str(asset_directory / 'background.png')).convert()
 
     # Fonts
-    ui_font = pg.font.Font(str(fonts_dir / 'GrapeSoda.ttf'), 30)
-    title_font = pg.font.Font(str(fonts_dir / 'HEXAGON_.ttf'), 200)
+    ui_font = pg.font.Font(str(font_directory / 'GrapeSoda.ttf'), 30)
+    title_font = pg.font.Font(str(font_directory / 'HEXAGON_.ttf'), 200)
 
     # Title surface
     title_surface = title_font.render('UNIT', True, (142, 107, 107))
 
     # UI Surfaces & Rectangles
-    play_button_surface = pg.image.load(str(graphics_dir / 'play-button.png')).convert()
+    play_button_surface = pg.image.load(str(asset_directory / 'play-button.png')).convert()
     play_button_rect = play_button_surface.get_rect(center=(SCREEN_WIDTH // 2, 300))
 
     # Initialize empty list
