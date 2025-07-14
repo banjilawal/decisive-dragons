@@ -1,0 +1,43 @@
+# === HANDLE LINE ENDINGS CONSISTENTLY ===
+# Auto normalize line endings to LF in repo, and convert to CRLF or LF in working dir depending on OS
+* text=auto
+
+# Explicitly declare text files (forces consistent normalization)
+*.py text
+*.js text
+*.ts text
+*.java text
+*.html text
+*.css text
+*.scss text
+*.json text
+*.yml text
+*.yaml text
+*.md text
+*.txt text
+*.xml text
+*.csv text
+*.ini text
+*.cfg text
+*.toml text
+*.env text
+*.gitignore text
+*.gitattributes text
+*.editorconfig text
+
+# Shell and script files (always LF endings)
+*.sh text eol=lf
+*.bash text eol=lf
+*.zsh text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Windows-only config (CRLF endings)
+*.sln text eol=crlf
+*.csproj text eol=crlf
+
+# === BINARY FILES (Do not normalize line endings) ===
+# Images
+*.png binary
+*.jpg*
