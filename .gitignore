@@ -1,7 +1,118 @@
-# Default ignored files
-/shelf/
-/workspace.xml
+# === PYTHON BUILD FILES ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+develop-eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.manifest
+*.spec
+*.log
+
+# === VIRTUAL ENVIRONMENTS ===
+# Common names for virtual env folders
+venv/
+.venv/
+env/
+.env/
+ENV/
+.virtualenv/
+.Python
+pip-wheel-metadata/
+pip-log.txt
+
+# === IDEs AND EDITORS ===
+
+# VSCode
+.vscode/
+
+# PyCharm / IntelliJ
 .idea/
 *.iml
-misc.xml
-modules.xml
+
+# Eclipse / PyDev
+.project
+.pydevproject
+.metadata/
+*.launch
+.settings/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Thonny
+.thonny/
+
+# Emacs / Vim / Nano / other editors
+*~
+*.swp
+*.swo
+.netrwhist
+tags
+TAGS
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb~
+
+# Test cache
+.cache/
+.pytest_cache/
+.coverage
+.tox/
+.nox/
+
+# MyPy, Pylint, etc.
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+
+# Cython build
+cython_debug/
+
+# Logs and local data
+*.log
+*.tmp
+*.bak
+*.db
+*.sqlite3
+.DS_Store
+Thumbs.db
+
+# Mac system files
+.AppleDouble
+.LSOverride
+Icon?
+ehthumbs.db
+Desktop.ini
+
+# Lock files
+Pipfile.lock
+poetry.lock
+poetry.toml
+
+# Environment variable files
+.env
+.env.*
+
+# Local Docker
+docker-compose.override.yml
+.docker/
+
+# VSCode devcontainer
+.devcontainer/
+
+# Ignore editable installs metadata
+src/**/*.egg-info/
