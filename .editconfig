@@ -1,0 +1,54 @@
+# top-most EditorConfig file
+root = true
+
+# === DEFAULT SETTINGS (applies to all files) ===
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+# === PYTHON FILES ===
+[*.py]
+indent_style = space
+indent_size = 4
+max_line_length = 88  # PEP8 allows 79; 88 is used by Black
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# === JSON, YAML, TOML, CONFIG ===
+[*.{json,yml,yaml,toml,cfg,ini}]
+indent_style = space
+indent_size = 2
+
+# === MARKDOWN ===
+[*.md]
+trim_trailing_whitespace = false  # allow trailing spaces for Markdown line breaks
+indent_style = space
+indent_size = 2
+
+# === SHELL SCRIPTS ===
+[*.{sh,bash}]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+
+# === JAVASCRIPT / TYPESCRIPT / HTML / CSS ===
+[*.{js,ts,jsx,tsx,html,css,scss}]
+indent_style = space
+indent_size = 2
+
+# === XML / XSLT ===
+[*.xml]
+indent_style = space
+indent_size = 2
+
+# === YAML OVERRIDES (sometimes tools default to 4) ===
+[*.yaml]
+indent_size = 2
+
+# === CSV / TSV / TXT ===
+[*.{csv,tsv,txt}]
+end_of_
