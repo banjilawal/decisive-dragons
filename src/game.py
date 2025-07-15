@@ -2,8 +2,8 @@ import pygame as pg
 from pathlib import Path
 from sys import exit
 
-from GameState import *
-from LevelLoader import *
+from .GameState import *
+from .LevelLoader import *
 
 def launch(asset_directory: Path, font_directory: Path, level_directory: Path):
     # Initialize pygame
@@ -30,7 +30,7 @@ def launch(asset_directory: Path, font_directory: Path, level_directory: Path):
 
     # Fonts
     ui_font = pg.font.Font(str(font_directory / 'GrapeSoda.ttf'), 30)
-    title_font = pg.font.Font(str(font_directory / 'HEXAGON_.ttf'), 200)
+    title_font = pg.font.Font(str(font_directory / 'hexagon.ttf'), 200)
 
     # Title surface
     title_surface = title_font.render('UNIT', True, (142, 107, 107))

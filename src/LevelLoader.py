@@ -1,6 +1,6 @@
 import json
-from Block import *
-from Grid import *
+from .Block import *
+from .Grid import *
 import pygame as pg
 
 
