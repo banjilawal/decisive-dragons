@@ -1,96 +1,61 @@
-# Decisive Dragons Game
+# Decisive Dragons
 
-A Python-based game using Pygame.
+Decisive Dragons is a Python puzzle game built with Pygame.
 
-## Getting Started
+To get started, first clone this repository using:
 
-### Clone the Repository
-1. Open your terminal/command prompt
-2. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/decisive-dragons.git
-   cd decisive-dragons
-   ```
+```bash
+git clone https://github.com/yourusername/decisive-dragons.git
+cd decisive-dragons
+```
 
-## General Setup Instructions
+Next, run the setup script:
 
-### Method 1: Command Line Setup
-1. Make sure you have Python 3.13.1 or later installed
-2. Create a virtual environment:
-   ```bash
-   python -m venv .venv
-   ```
+```bash
+python bootstrap.py
+```
 
-3. Activate the virtual environment:
-   - Windows:
-     ```bash
-     .venv\Scripts\activate
-     ```
-   - macOS/Linux:
-     ```bash
-     source .venv/bin/activate
-     ```
+This script will automatically create a `.venv` virtual environment, install the required dependencies (like `pygame`), set up folders (`assets`, `font`, `level`, `src`), create `main.py` if it's missing, and finally display instructions for running the game. If everything goes well, you'll see instructions at the end for how to activate the virtual environment and launch the game.
 
-4. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+If you run into issues or prefer manual setup, you can do the following instead:
 
-5. Run the game:
-   ```bash
-   python src/main.py
-   ```
+```bash
+python -m venv .venv
+```
 
-### Method 2: PyCharm Setup
+Activate the virtual environment:
 
-1. **Open Project in PyCharm**
-   - Open PyCharm
-   - Go to `File > Open` and select the cloned project folder
+- On macOS/Linux:
+  ```bash
+  source .venv/bin/activate
+  ```
 
-2. **Create Virtual Environment**
-   - Look for the popup suggesting to create a virtual environment, OR
-   - Click on "Python Interpreter" in the bottom right status bar
-   - Click "Add Interpreter" > "Add Local Interpreter"
-   - Select "Virtualenv" as the environment type
-   - Make sure Python 3.13 is selected as the base interpreter
-   - Leave the location as default (it should be in your project folder as `.venv`)
-   - Click "OK"
+- On Windows (cmd):
+  ```cmd
+  .venv\Scripts\activate.bat
+  ```
 
-3. **Install Dependencies**
-   - After the virtual environment is created, PyCharm should detect `requirements.txt`
-   - Click "Install Requirements" in the popup, OR
-   - Open Terminal in PyCharm (`View > Tool Windows > Terminal`)
-   - Run: `pip install -r requirements.txt`
+- On Windows (PowerShell):
+  ```powershell
+  .venv\Scripts\Activate.ps1
+  ```
 
-4. **Run the Game**
-   - Right-click on `main.py` in the Project Explorer
-   - Select "Run 'main'"
+Then install dependencies manually:
 
-### Troubleshooting
+```bash
+pip install -r requirements.txt
+```
 
-If you encounter issues:
+To run the game, use:
 
-1. **Check Python Version**
-   - Run `python --version` to ensure you have Python 3.13.1 or later
+```bash
+python main.py
+```
 
-2. **Virtual Environment Issues**
-   - Make sure the virtual environment is activated (you should see `(.venv)` in your terminal)
-   - Try removing the `.venv` folder and creating a new virtual environment
+If you're using PyCharm, open the project, create a virtual environment when prompted or from the interpreter settings, install the requirements, and run `main.py` from the project tree.
 
-3. **PyCharm-specific Issues**
-   - Verify the Python interpreter is correctly set in:
-     `File > Settings > Project > Python Interpreter`
-   - Ensure all dependencies are installed (check the packages list in the interpreter settings)
+This project requires Python 3.11 or later. To add any new dependencies, install them with pip and then run:
 
-## Development
-
-To add new dependencies:
-1. Activate virtual environment
-2. Install package: `pip install package_name`
-3. Update requirements: `pip freeze > requirements.txt`
-
-## Requirements
-
-- Python 3.13.1 or higher
-- Pygame
-- Operating System: Windows/macOS/Linux
+```bash
+pip freeze > requirements.txt
+```
