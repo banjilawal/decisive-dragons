@@ -2,6 +2,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
+import argparse
 
 def run_command(command: list):
     """Run a subprocess command and exit on failure."""
@@ -32,13 +33,11 @@ def install_packages(venv_dir=".venv", packages=None):
         sys.exit(1)
 
     if packages is None:
-        # Try to install from requirements.txt if it exists
         if Path("requirements.txt").exists():
             print("📦 Installing packages from requirements.txt...")
             run_command([pip_executable, "install", "--upgrade", "pip", "wheel"])
             run_command([pip_executable, "install", "-r", "requirements.txt"])
         else:
-            # Fallback to manually specified packages
             packages = ["pygame"]
             print(f"📦 Installing packages: {', '.join(packages)} ...")
             run_command([pip_executable, "install", "--upgrade", "pip", "wheel", *packages])
@@ -92,6 +91,11 @@ if __name__ == "__main__":
     else:
         print("🔁 `main.py` already exists.")
 
+def launch_game():
+    """Launch the game by running main.py with the virtual env Python."""
+    print("🚀 Launching the game...\n")
+    run_command([get_venv_python(), "main.py"])
+
 def print_post_setup_instructions():
     print("\n🎉 Setup complete!\n")
     if os.name == "nt":
@@ -107,12 +111,19 @@ def print_post_setup_instructions():
     print("  python main.py")
 
 def main():
+    parser = argparse.ArgumentParser(description="Bootstrap the game project.")
+    parser.add_argument("--no-run", action="store_true", help="Skip launching the game after setup.")
+    args = parser.parse_args()
+
     print("🚀 Setting up your game project...\n")
     create_virtual_env()
     install_packages()
     configure_project_structure()
     create_main_script()
     print_post_setup_instructions()
+
+    if not args.no_run:
+        launch_game()
 
 if __name__ == "__main__":
     main()
