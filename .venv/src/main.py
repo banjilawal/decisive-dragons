@@ -15,9 +15,6 @@ MAX_FRAMERATE = 30
 # Set GameState to Main Menu on startup
 game_state = GameState.MAIN_MENU
 
-# Initialize selected_level
-selected_level = None
-
 # Game Window
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -44,6 +41,9 @@ play_button_rect = play_button_surface.get_rect(center=(SCREEN_WIDTH // 2, 300))
 back_button_text = ui_font.render('BACK', True, (142, 107, 107))
 back_button_rect = back_button_text.get_rect(topleft=(7, 10))
 
+# Initialize selected_level
+selected_level = None
+
 # Initializing empty list for level buttons
 level_buttons = []
 
@@ -67,38 +67,75 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
+# Block and grid and movement variables initialize
+grid = None
+block_objects = []
+offset_x = 0
+offset_y = 0
+selected_block = None
+drag_offset_x = 0
+drag_offset_y = 0
+
 # Main loop
 running = True
 while running:
 
-    # Detects all user inputs (aka events)
+    # --- EVENT HANDLER ---
     for event in pg.event.get():
-        if event.type == pg.QUIT: # X Button top right of game window
-            pg.quit() # Close the window
-            exit() # Stop program entirely
-        elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1: # If user pressed left mouse
+
+        # Exit game with window x button
+        if event.type == pg.QUIT:
+            pg.quit()
+            exit()
+
+        # Detect Left Mouse Click
+        elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+
+            # Main Menu Left Mouse Click Handler
             if game_state == GameState.MAIN_MENU:
                 if play_button_rect.collidepoint(event.pos): # If the click was inside play button rectangle
                     game_state = GameState.LEVEL_SELECT
+
+            # Level Select Left Mouse Click Handler
             elif game_state == GameState.LEVEL_SELECT:
-                # Check if any level button was clicked
+
+                # Load level if a level button is clicked
                 for button in level_buttons:
                     if button['rect'].collidepoint(event.pos):
+
+                        # Set level variables and go to Gameplay State
                         selected_level = button['id']
+                        block_objects, grid = load_level_data(selected_level)
+                        offset_x, offset_y = get_grid_offset(grid.columns, grid.rows, CELL_SIZE, SCREEN_WIDTH, SCREEN_HEIGHT)
                         game_state = GameState.GAMEPLAY
                         break
+
+            # Gameplay Left Mouse Click Handler
             elif game_state == GameState.GAMEPLAY:
-                # Check if back button was clicked
+
+                # Back button handler
                 if back_button_rect.collidepoint(event.pos):
                     game_state = GameState.LEVEL_SELECT # Go back to level select
 
-    # --- MAIN MENU GAME STATE ---
+                # Detect Left Click on all Blocks (Grid Entities)
+                for block in block_objects:
+                    rect = get_block_rect(block, CELL_SIZE, offset_x, offset_y)
+                    if rect.collidepoint(event.pos):
+                        selected_block = block
+                        print(selected_block) # DEBUG
+
+                        # These gives us the mouse click's distance from the top left corner of the block
+                        drag_offset_x = event.pos[0] - rect.x
+                        drag_offset_y = event.pos[1] - rect.y
+                        break
+
+    # --- MAIN MENU GAME STATE DISPLAY ---
     if game_state == GameState.MAIN_MENU:
         screen.blit(background_surface, (0, 0)) # Draw background image
         screen.blit(title_surface, (SCREEN_WIDTH // 2 - title_surface.get_width() // 2, 30))
         screen.blit(play_button_surface, play_button_rect)
 
-    # --- LEVEL SELECT GAME STATE ---
+    # --- LEVEL SELECT GAME STATE DISPLAY ---
     elif game_state == GameState.LEVEL_SELECT:
         screen.blit(background_surface, (0, 0)) # Draw background image
 
@@ -106,37 +143,20 @@ while running:
         for button in level_buttons:
             screen.blit(button['text_surface'], button['rect'])
 
-    # --- GAMEPLAY GAME STATE ---
+    # --- GAMEPLAY GAME STATE DISPLAY ---
     elif game_state == GameState.GAMEPLAY:
         screen.blit(background_surface, (0, 0)) # Draw background image
 
         # Draws the back button
         screen.blit(back_button_text, back_button_rect)
 
-        # Gets grid and block objects from load_level_data()
-        level_data = load_level_data(selected_level)
-        block_objects = (level_data[0])
-        grid = level_data[1]
-
-        # Gets offsets from get_grid_offset()
-        offsets = get_grid_offset(grid.columns, grid.rows, CELL_SIZE, SCREEN_WIDTH, SCREEN_HEIGHT)
-        offset_x = offsets[0]
-        offset_y = offsets[1]
-
         # Draws the grid
         draw_grid(screen, grid, CELL_SIZE, offset_x, offset_y)
 
-        # Places blocks
+        # Draws blocks on grid
         for block in block_objects:
-            rect = pg.Rect(
-                (CELL_SIZE * (block.column - 1)) + offset_x,
-                (CELL_SIZE * (block.row - 1)) + offset_y,
-                CELL_SIZE * block.width,
-                CELL_SIZE * block.height
-            )
-
+            rect = get_block_rect(block, CELL_SIZE, offset_x, offset_y)
             pg.draw.rect(screen, WHITE, rect)
-            # pygame.display.flip()
 
     else:
         print("ERROR: Invalid GameState: " + game_state)

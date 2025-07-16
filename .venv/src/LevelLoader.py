@@ -82,3 +82,12 @@ def draw_grid(surface, grid, cell_size, offset_x, offset_y):
             rect_y = offset_y + row * cell_size  # ROW is Y
             rect = pg.Rect(rect_x, rect_y, cell_size, cell_size)
             pg.draw.rect(surface, (200, 200, 200), rect, width=1)  # Light gray grid lines
+
+
+def get_block_rect(block, CELL_SIZE, offset_x, offset_y):
+    return pg.Rect(
+        (CELL_SIZE * (block.column - 1)) + offset_x,
+        (CELL_SIZE * (block.row - 1)) + offset_y,
+        CELL_SIZE * block.width,
+        CELL_SIZE * block.height
+    )
