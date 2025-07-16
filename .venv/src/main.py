@@ -157,6 +157,7 @@ while running:
                 new_col = max(1, min(new_col, max_col))
                 new_row = max(1, min(new_row, max_row))
 
+                # Restricts movements based on booleans
                 if isinstance(selected_block, Mover):
                     if selected_block.horiz_mov and not selected_block.verti_mov:
                         selected_block.column = new_col
