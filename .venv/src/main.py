@@ -80,7 +80,7 @@ drag_offset_y = 0
 running = True
 while running:
 
-    # --- EVENT HANDLER ---
+    # --- EVENT HANDLERS ---
     for event in pg.event.get():
 
         # Exit game with window x button
@@ -88,16 +88,19 @@ while running:
             pg.quit()
             exit()
 
-        # Detect Left Mouse Click
-        elif event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+        # Main Menu Event Handler
+        if game_state == GameState.MAIN_MENU:
 
-            # Main Menu Left Mouse Click Handler
-            if game_state == GameState.MAIN_MENU:
+            # On left click
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                 if play_button_rect.collidepoint(event.pos): # If the click was inside play button rectangle
                     game_state = GameState.LEVEL_SELECT
 
-            # Level Select Left Mouse Click Handler
-            elif game_state == GameState.LEVEL_SELECT:
+        # Level Select Event Handler
+        elif game_state == GameState.LEVEL_SELECT:
+
+            # On left click
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
 
                 # Load level if a level button is clicked
                 for button in level_buttons:
@@ -110,9 +113,11 @@ while running:
                         game_state = GameState.GAMEPLAY
                         break
 
-            # Gameplay Left Mouse Click Handler
-            elif game_state == GameState.GAMEPLAY:
+        # Gameplay Event Handler
+        elif game_state == GameState.GAMEPLAY:
 
+            # On left click
+            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
                 # Back button handler
                 if back_button_rect.collidepoint(event.pos):
                     game_state = GameState.LEVEL_SELECT # Go back to level select
