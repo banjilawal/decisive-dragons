@@ -3,6 +3,7 @@ from sys import exit
 
 from GameState import *
 from LevelLoader import *
+from GridEntity import *
 
 
 # Initialize pygame
@@ -51,6 +52,10 @@ level_buttons = []
 level_select_data = [
     {'id': 1, 'name': 'Level 1'},
     {'id': 2, 'name': 'Level 2'},
+    {'id': 3, 'name': 'Level 3'},
+    {'id': 4, 'name': 'Level 4'},
+    {'id': 5, 'name': 'Level 5'},
+    {'id': 6, 'name': 'Level 6'}
 ]
 
 # Iterates through each level to create list of level buttons to display
@@ -134,6 +139,35 @@ while running:
                         drag_offset_y = event.pos[1] - rect.y
                         break
 
+            # On move mouse while a block is selected and holding left click
+            elif event.type == pg.MOUSEMOTION and selected_block is not None and pg.mouse.get_pressed()[0]:
+
+                # Find current block top left corner
+                mouse_x, mouse_y = event.pos
+                block_px_x = mouse_x - drag_offset_x
+                block_px_y = mouse_y - drag_offset_y
+
+                # Set new col and row
+                new_col = (((block_px_x - offset_x) // CELL_SIZE) + 1)
+                new_row = (((block_px_y - offset_y) // CELL_SIZE) + 1)
+
+                # Keeps in bounds
+                max_col = grid.columns - selected_block.width + 1
+                max_row = grid.rows - selected_block.height + 1
+                new_col = max(1, min(new_col, max_col))
+                new_row = max(1, min(new_row, max_row))
+
+                if isinstance(selected_block, Mover):
+                    if selected_block.horiz_mov and not selected_block.verti_mov:
+                        selected_block.column = new_col
+                    elif selected_block.verti_mov and not selected_block.horiz_mov:
+                        selected_block.row = new_row
+                    elif selected_block.horiz_mov and selected_block.verti_mov:
+                        selected_block.column = new_col
+                        selected_block.row = new_row
+
+
+
     # --- MAIN MENU GAME STATE DISPLAY ---
     if game_state == GameState.MAIN_MENU:
         screen.blit(background_surface, (0, 0)) # Draw background image
@@ -161,7 +195,12 @@ while running:
         # Draws blocks on grid
         for block in block_objects:
             rect = get_block_rect(block, CELL_SIZE, offset_x, offset_y)
-            pg.draw.rect(screen, WHITE, rect)
+            if isinstance(block, PrizeBox):
+                pg.draw.rect(screen, RED, rect)
+            elif isinstance(block, Immovable):
+                pg.draw.rect(screen, WHITE, rect)
+            else:
+                pg.draw.rect(screen, BLUE, rect)
 
     else:
         print("ERROR: Invalid GameState: " + game_state)
